@@ -27,7 +27,7 @@ var ARROW = {
   left: 37,
   right: 39,
 };
-const FRUITS = []; // [xPosition, isCollected]
+const FRUITS = []; // [xPosition, isCollected, hasCountInVoid]
 
 const playerImage = new Image();
 const fruitImage = new Image();
