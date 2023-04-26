@@ -46,6 +46,7 @@ setInterval(() => {
   context.clearRect(0, 0, canvas.width, canvas.height);
   if (LIVES <= 0) {
     let text = "Game Over";
+    context.font = "50px Arial"
     let textMeasure = context.measureText(text);
     context.fillText(
       text,
@@ -99,7 +100,7 @@ setInterval(() => {
       LIVES--;
       FRUITS[index][2] = true;
     }
-    context.drawImage(
+    !isCollected && context.drawImage(
       fruitImage,
       xFruitPos,
       yFruitPos,
