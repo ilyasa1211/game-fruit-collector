@@ -34,7 +34,7 @@ canvas.width = 300;
 
 const COLUMN: number = 3;
 const FRUIT_SPAWN_TIME: number = 500;
-const MAX_FRUIT_SPAWN: number = 2;
+const MAX_FRUIT_SPAWN: number = 20;
 var FRUIT_DROP_SPEED: number = 5;
 var LIVES: number = 3;
 var SCORES: number = 0;
