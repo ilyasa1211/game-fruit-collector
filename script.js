@@ -4,7 +4,7 @@ canvas.height = window.innerHeight;
 canvas.width = 300;
 var COLUMN = 3;
 var FRUIT_SPAWN_TIME = 500;
-var MAX_FRUIT_SPAWN = 20;
+var MAX_FRUIT_SPAWN = 2;
 var FRUIT_DROP_SPEED = 5;
 var LIVES = 3;
 var SCORES = 0;
@@ -104,7 +104,8 @@ function insertText(context, text, options) {
 }
 function checkWin() {
     return (FRUITS.length === MAX_FRUIT_SPAWN) &&
-        FRUITS[FRUITS.length - 1].positionY >= PLAYER.yPos + PLAYER.height / 2;
+        (FRUITS[FRUITS.length - 1].positionY > canvas.height ||
+            FRUITS[FRUITS.length - 1].isCollected);
 }
 function isPerfectWin() {
     return checkWin() &&

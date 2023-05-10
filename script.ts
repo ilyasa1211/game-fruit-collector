@@ -34,7 +34,7 @@ canvas.width = 300;
 
 const COLUMN: number = 3;
 const FRUIT_SPAWN_TIME: number = 500;
-const MAX_FRUIT_SPAWN: number = 20;
+const MAX_FRUIT_SPAWN: number = 2;
 var FRUIT_DROP_SPEED: number = 5;
 var LIVES: number = 3;
 var SCORES: number = 0;
@@ -154,7 +154,8 @@ function insertText(
 
 function checkWin(): boolean {
   return (FRUITS.length === MAX_FRUIT_SPAWN) &&
-    FRUITS[FRUITS.length - 1].positionY >= PLAYER.yPos + PLAYER.height / 2;
+    (FRUITS[FRUITS.length - 1].positionY > canvas.height ||
+      FRUITS[FRUITS.length - 1].isCollected);
 }
 function isPerfectWin(): boolean {
   return checkWin() &&
