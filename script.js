@@ -2,9 +2,9 @@ var canvas = document.querySelector("canvas");
 var context = canvas.getContext("2d");
 canvas.height = window.innerHeight;
 canvas.width = 300;
-var COLUMN = 3;
-var FRUIT_SPAWN_TIME = 500;
-var MAX_FRUIT_SPAWN = 20;
+const COLUMN = 3;
+const FRUIT_SPAWN_TIME = 500;
+const MAX_FRUIT_SPAWN = 20;
 var FRUIT_DROP_SPEED = 5;
 var LIVES = 3;
 var SCORES = 0;
@@ -15,49 +15,48 @@ var PLAYER = {
     width: canvas.width / COLUMN,
     height: 60,
 };
-var FRUITS = [];
-var imageReady = {
+const FRUITS = [];
+const imageReady = {
     player: false,
     fruit: false,
 };
 var start = null;
-var playerImage = new Image();
-var fruitImage = new Image();
-playerImage.onload = function () {
+const playerImage = new Image();
+const fruitImage = new Image();
+playerImage.onload = () => {
     imageReady.player = true;
     AllImageReady(imageReady) && Start(game, context);
 };
-fruitImage.onload = function () {
+fruitImage.onload = () => {
     imageReady.fruit = true;
     AllImageReady(imageReady) && Start(game, context);
 };
 playerImage.src = "./cart.png";
 fruitImage.src = "./fruit.png";
-window.onkeydown = function (e) {
-    var nextPosition = {
+window.onkeydown = (e) => {
+    let nextPosition = {
         ArrowLeft: Math.max(playerPosition - 1, 0),
         ArrowRight: Math.min(playerPosition + 1, COLUMN - 1),
     };
-    var nextPos = nextPosition[e.key];
+    let nextPos = nextPosition[e.key];
     typeof nextPos === "number" && (playerPosition = nextPos);
 };
-function AllImageReady(_a) {
-    var fruit = _a.fruit, player = _a.player;
+function AllImageReady({ fruit, player }) {
     return fruit && player;
 }
 function Start(game, context) {
     typeof start !== "number" &&
-        (start = window.requestAnimationFrame(function () { return game(context); }));
+        (start = window.requestAnimationFrame(() => game(context)));
 }
 function game(context) {
     clearCanvas(context);
     insertText(context, "Scores : " + SCORES, { y: 0 });
-    var isLose = LIVES <= 0;
-    var isWin = checkWin();
-    var isPerfect = isPerfectWin();
-    var isGameOver = isLose || isWin;
+    const isLose = LIVES <= 0;
+    const isWin = checkWin();
+    const isPerfect = isPerfectWin();
+    const isGameOver = isLose || isWin;
     if (isGameOver) {
-        var message = isWin
+        const message = isWin
             ? isPerfect ? "Amazing Win!" : "You Win!"
             : "Game Over!";
         insertText(context, message);
@@ -67,12 +66,12 @@ function game(context) {
     insertText(context, "Lives : " + LIVES);
     drawFruit(context);
     drawPlayer(context);
-    start = window.requestAnimationFrame(function () { return game(context); });
+    start = window.requestAnimationFrame(() => game(context));
 }
-var spawner = setInterval(function spawnFruit() {
+let spawner = setInterval(function spawnFruit() {
     if (FRUITS.length >= MAX_FRUIT_SPAWN)
         return clearInterval(spawner);
-    var fruit = {
+    let fruit = {
         positionX: getIntegerRandomNumber(0, COLUMN) *
             (PLAYER.xPos - PLAYER.width / (COLUMN - 1)),
         positionY: 0,
@@ -84,15 +83,14 @@ var spawner = setInterval(function spawnFruit() {
 function clearCanvas(context) {
     context.clearRect(0, 0, canvas.width, canvas.height);
 }
-function insertText(context, text, options) {
-    if (options === void 0) { options = null; }
+function insertText(context, text, options = null) {
     !options && (options = {});
     typeof options.color === "undefined" && (options.color = "white");
     typeof options.size === "undefined" && (options.size = 20);
     context.font = options.size + "px Arial";
-    var textMeasure = context.measureText(text);
-    var horizontalCenter = canvas.width / 2 - textMeasure.width / 2;
-    var verticalCenter = canvas.height / 2 -
+    let textMeasure = context.measureText(text);
+    let horizontalCenter = canvas.width / 2 - textMeasure.width / 2;
+    let verticalCenter = canvas.height / 2 -
         textMeasure.actualBoundingBoxAscent / 2;
     typeof options.x === "undefined" &&
         (options.x = horizontalCenter - textMeasure.actualBoundingBoxAscent);
@@ -109,23 +107,23 @@ function checkWin() {
 }
 function isPerfectWin() {
     return checkWin() &&
-        FRUITS.every(function (fruit) { return fruit.isCollected; });
+        FRUITS.every((fruit) => fruit.isCollected);
 }
 function drawPlayer(context) {
     context.drawImage(playerImage, playerPosition * (PLAYER.xPos - PLAYER.width / (COLUMN - 1)), PLAYER.yPos, PLAYER.width, PLAYER.height / 2);
 }
 function drawFruit(context) {
-    FRUITS.forEach(function (fruit, index) {
-        var xFruitPos = fruit.positionX + PLAYER.width / 2 - PLAYER.height / 2;
-        var inAreaPosXCart = xFruitPos >
+    FRUITS.forEach((fruit, index) => {
+        let xFruitPos = fruit.positionX + PLAYER.width / 2 - PLAYER.height / 2;
+        let inAreaPosXCart = xFruitPos >
             playerPosition * (PLAYER.xPos - PLAYER.width / (COLUMN - 1)) &&
             xFruitPos <
                 playerPosition * (PLAYER.xPos - PLAYER.width / (COLUMN - 1)) +
                     PLAYER.width;
-        var inAreaPosYCart = fruit.positionY + PLAYER.height / 2 >= PLAYER.yPos &&
+        let inAreaPosYCart = fruit.positionY + PLAYER.height / 2 >= PLAYER.yPos &&
             fruit.positionY < PLAYER.yPos + PLAYER.height / 2;
-        var insideCart = inAreaPosXCart && inAreaPosYCart;
-        var insideVoid = fruit.positionY >= canvas.height;
+        let insideCart = inAreaPosXCart && inAreaPosYCart;
+        let insideVoid = fruit.positionY >= canvas.height;
         if (insideCart && !fruit.isCollected) {
             fruit.isCollected = true;
             SCORES += 10;
