@@ -37,9 +37,6 @@ export default class Main {
       Math.floor(GameConfig.COLUMN / 2) as TColumnPosition
     );
 
-    console.log("bru", player);
-    
-
     const fruits: Array<IFruit> = [];
     const fruitDrawers: Array<FruitDrawer> = [];
 
@@ -62,7 +59,6 @@ export default class Main {
       let i = 0;
       return () => {
         ++i;
-        console.log(i);
         if (i == 2) {
           // spawn a fruit every specific time
           game.state.spawner = window.setInterval(
