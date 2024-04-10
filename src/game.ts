@@ -3,22 +3,26 @@ import FruitDrawer from "./drawers/fruit-drawer";
 import PlayerDrawer from "./drawers/player-drawer";
 import GameConfig from "./game-config";
 import GameState from "./game-state";
+import { IFruit } from "./models/fruit";
+import { IPlayer } from "./models/player";
 
 export default class Game {
-  private lives: number;
-  private score: number;
+  public lives: number;
+  public score: number;
 
   public constructor(
     public state: GameState,
-    private canvas: Canvas,
-    private fruitDrawer: FruitDrawer,
-    private playerDrawer: PlayerDrawer
+    public canvas: Canvas,
+    private fruitDrawers: FruitDrawer[],
+    private playerDrawer: PlayerDrawer,
+    public player: IPlayer,
+    private fruits: IFruit[]
   ) {
     this.lives = GameConfig.START_LIVES_DEFAULT;
     this.score = GameConfig.START_SCORE_DEFAULT;
   }
 
-  public play(context: CanvasRenderingContext2D): void {
+  public play(): void {
     this.canvas.clear();
     this.canvas.insertText("Scores : " + this.score, { y: 0 });
 
@@ -29,7 +33,7 @@ export default class Game {
 
     if (isGameOver) {
       let message = "Game Over!"; // It mean you lose if you recieve this message
-      
+
       if (isWin) {
         message = isPerfect ? "Amazing Win!" : "You Win!";
       }
@@ -42,9 +46,12 @@ export default class Game {
     }
 
     this.canvas.insertText("Lives : " + this.lives);
-    this.fruitDrawer.draw();
+
+    this.fruits.forEach((fruit) => fruit.move(this, this.player));
+
+    this.fruitDrawers.forEach((drawer) => drawer.draw());
     this.playerDrawer.draw();
 
-    this.state.startId = window.requestAnimationFrame(() => this.play(context));
+    this.state.startId = window.requestAnimationFrame(() => this.play());
   }
 }

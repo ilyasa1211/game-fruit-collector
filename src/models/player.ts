@@ -19,13 +19,13 @@ export default class Player implements IPlayer {
     public positionColumnIndex: TColumnPosition
   ) {}
 
-  public moveRight(): void {
+  public moveLeft(): void {
     const nextPosition = Math.max(this.positionColumnIndex - 1, 0);
-
+    
     this.positionColumnIndex = nextPosition as TColumnPosition;
   }
 
-  public moveLeft(): void {
+  public moveRight(): void {
     const nextPosition = Math.min(
       this.positionColumnIndex + 1,
       GameConfig.COLUMN - 1

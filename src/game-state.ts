@@ -2,12 +2,13 @@ import GameConfig from "./game-config";
 import { IFruit } from "./models/fruit";
 
 export default class GameState {
-  public spawner: NodeJS.Timeout;
+  public spawner: number;
   public startId: number;
   public constructor(
     private fruits: IFruit[],
     private canvas: HTMLCanvasElement
   ) {}
+  
   public isWin(): boolean {
     return (
       this.fruits.length === GameConfig.MAX_FRUIT_SPAWN &&

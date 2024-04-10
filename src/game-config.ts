@@ -7,4 +7,5 @@ export default class GameConfig {
   public static readonly START_SCORE_DEFAULT = 0;
   public static readonly CANVAS_HEIGHT = window.innerHeight;
   public static readonly CANVAS_WIDTH = 300;
+  public static readonly SCORE_INCREMENT = 10;
 }

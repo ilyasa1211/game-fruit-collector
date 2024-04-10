@@ -5,20 +5,15 @@ export interface TwoMoveControl {
   moveRight(): void;
 }
 
-export interface FourMoveControl extends TwoMoveControl {
-  moveUp(): void;
-  moveDown(): void;
-}
-
 export default class GameControl {
   public constructor(player: IPlayer) {
-    window.onkeydown = (evt: KeyboardEvent) => {
-      const action = {
+    window.onkeydown = (evt: KeyboardEvent): void => {
+      const actions = {
         ArrowLeft: player.moveLeft,
         ArrowRight: player.moveRight,
       };
 
-      return action[evt.key as keyof typeof action]();
+      return actions[evt.key as keyof typeof actions]?.call(player);
     };
   }
 }

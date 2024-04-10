@@ -3,7 +3,13 @@ import { TTextOptions } from "./types";
 export default class Canvas {
   public context: CanvasRenderingContext2D;
 
-  public constructor(public canvasElement: HTMLCanvasElement, public width: number, public height: number) {
+  public constructor(
+    public canvasElement: HTMLCanvasElement,
+    public width: number,
+    public height: number
+  ) {
+    this.canvasElement.width = width;
+    this.canvasElement.height = height;
     this.context = canvasElement.getContext("2d") as CanvasRenderingContext2D;
   }
 

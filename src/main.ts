@@ -3,11 +3,11 @@ import FruitDrawer from "./drawers/fruit-drawer";
 import PlayerDrawer from "./drawers/player-drawer";
 import Game from "./game";
 import GameConfig from "./game-config";
+import GameControl from "./game-control";
 import GameState from "./game-state";
 import Fruit, { IFruit } from "./models/fruit";
 import Player from "./models/player";
-import { TColumnPosition, TReady } from "./types";
-import Utilities from "./utilities";
+import { TColumnPosition } from "./types";
 
 const canvasElement = document.querySelector("canvas") as HTMLCanvasElement;
 
@@ -20,8 +20,8 @@ export default class Main {
     const playerImage = new Image();
     const fruitImage = new Image();
 
-    playerImage.src = "../public/images/cart.png";
-    fruitImage.src = "../public/images/fruit.png";
+    playerImage.src =  "public/images/cart.png";
+    fruitImage.src = "public/images/fruit.png";
 
     const canvas = new Canvas(
       canvasElement,
@@ -37,45 +37,48 @@ export default class Main {
       Math.floor(GameConfig.COLUMN / 2) as TColumnPosition
     );
 
+    console.log("bru", player);
+    
+
     const fruits: Array<IFruit> = [];
+    const fruitDrawers: Array<FruitDrawer> = [];
 
     const playerDrawer = new PlayerDrawer(player, canvas.context, playerImage);
-    const fruitDrawer = new FruitDrawer(fruits, canvas.context, fruitImage);
     const gameState = new GameState(fruits, canvas.canvasElement);
-    const game = new Game(gameState, canvas, fruitDrawer, playerDrawer);
-
-    // spawn a fruit every specific time
-    game.state.spawner = setInterval(function spawnFruit(): void {
-      if (fruits.length >= GameConfig.MAX_FRUIT_SPAWN) {
-        return clearInterval(game.state.spawner);
-      }
-
-      const fruit = new Fruit(
-        Utilities.getIntegerRandomNumber(0, GameConfig.COLUMN) *
-          (player.positionX - player.width / (GameConfig.COLUMN - 1)),
-        0,
-        60,
-        false,
-        false
-      );
-
-      fruits.push(fruit);
-    }, GameConfig.FRUIT_SPAWN_TIME);
-
+    
+    const game = new Game(
+      gameState,
+      canvas,
+      fruitDrawers,
+      playerDrawer,
+      player,
+      fruits
+    );
+    
+    new GameControl(player);
+    
     // start only when the image was loaded
-    function ok() {
+    const start = () => {
       let i = 0;
       return () => {
         ++i;
+        console.log(i);
         if (i == 2) {
-          game.state.startId = window.requestAnimationFrame(() => game.play(canvas.context));
+          // spawn a fruit every specific time
+          game.state.spawner = window.setInterval(
+            () => Fruit.spawn(fruits, game, fruitDrawers, fruitImage),
+            GameConfig.FRUIT_SPAWN_TIME
+          );
+
+          // game start
+          game.state.startId = window.requestAnimationFrame(() => game.play());
         }
       };
-    }
+    };
 
-    const o = ok();
+    const ready = start();
 
-    playerImage.onload = o;
-    fruitImage.onload = o;
+    playerImage.onload = ready;
+    fruitImage.onload = ready;
   }
 }
