@@ -1,0 +1,48 @@
+name: Build & Deploy to Github Pages
+
+on: 
+  push: 
+    branches: 
+      - master
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4.1.0
+        with:
+          node-version: 20
+
+      - name: Install NodeJS dependencies
+        run: npm install
+
+      - name: Compile Typescript to Javascript
+        run: npm run build:prod
+
+      - name: Copy the entrypoint
+        run: cp ./src/index.html ./dist/index.html
+      
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3.0.1
+        with:
+          path: ./dist
+    
+  deploy:
+    runs-on: ubuntu-22.04
+
+    needs:
+      - build
+
+    environment: 
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy GitHub Pages site
+        id: deployment
+        uses: actions/deploy-pages@v4.0.5

@@ -1,9 +1,0 @@
-services:
-  webpack:
-    build: .
-    environment:
-      - NODE_VERSION=18
-    volumes:
-      - type: bind
-        source: ./dist
-        target: /home/game/dist
