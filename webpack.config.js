@@ -17,8 +17,12 @@ const isProduction = process.env.NODE_ENV == 'production';
 
 const stylesHandler = 'style-loader';
 
+const entrypoint = "./src/index.html";
+
+const entries = readDirectoryRecursive("./src").filter((entry) => entry !== entrypoint);
+
 const config = {
-    entry: readDirectoryRecursive("./src"),
+    entry: entries,
     output: {
         path: _resolve('dist'),
     },

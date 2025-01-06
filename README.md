@@ -8,21 +8,34 @@ Fruit is spawn from above, catch it, you only have 3 chance to fail!
 
 1. Install node dependencies
 ```shell
-$ npm install
+npm install
 ```
 
 2. Build
 ```shell
-$ npm run build:prod
+npm run build:prod
 ```
 
 3. Copy html file
 ```shell
-$ cp src/index.html dist/index.html
+cp src/index.html dist/index.html
 ```
 
 4. Open the dist/index.html
 
+### Docker Build
+
+1. Build image
+```sh
+docker build -t game_fruit_collector .
+```
+
+2. Run
+```sh
+docker run --rm --mount type=bind,source=$(PWD)/dist,target=/home/dist
+```
+
+3. On your directory, open the ./dist/index.html
 
 ### Todo
 
