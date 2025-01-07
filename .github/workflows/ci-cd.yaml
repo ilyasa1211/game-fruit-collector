@@ -26,6 +26,9 @@ jobs:
 
       - name: Copy the entrypoint
         run: cp ./src/index.html ./dist/index.html
+
+      - name: Copy assets
+        run: cp -r ./public ./dist/public
       
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v3.0.1
