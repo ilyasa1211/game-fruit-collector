@@ -27,12 +27,12 @@ cp src/index.html dist/index.html
 
 1. Build image
 ```sh
-docker build -t game_fruit_collector .
+docker build -t game-fruit-collector .
 ```
 
 2. Run
 ```sh
-docker run --rm --mount type=bind,source=$(PWD)/dist,target=/home/dist
+docker run --rm --mount type=bind,source=$(PWD)/dist,target=/home/dist game-fruit-collector
 ```
 
 3. On your directory, open the ./dist/index.html
