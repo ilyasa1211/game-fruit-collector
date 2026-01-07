@@ -1,23 +1,28 @@
 {
-  "devDependencies": {
-    "@webpack-cli/generators": "^3.0.7",
-    "css-loader": "^7.1.0",
-    "prettier": "^3.2.5",
-    "style-loader": "^4.0.0",
-    "ts-loader": "^9.5.1",
-    "typescript": "^5.4.4",
-    "webpack": "^5.91.0",
-    "webpack-cli": "^5.1.4"
-  },
-  "version": "1.0.0",
-  "description": "Game Fruit Collector",
-  "name": "game-fruit-collector",
-  "type": "module",
-  "scripts": {
-    "build": "webpack --mode=development",
-    "build:prod": "webpack --mode=production --node-env=production",
-    "watch": "webpack --watch"
-  },
-  "dependencies": {
-  }
+	"name": "game-fruit-collector",
+	"version": "1.1.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"build:github": "vite build --mode=github",
+		"preview": "vite preview",
+		"format": "biome check --write"
+	},
+	"dependencies": {
+		"vue": "^3.5.24"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.3.11",
+		"@types/node": "^24.10.1",
+		"@vitejs/plugin-vue": "^6.0.1",
+		"@vue/tsconfig": "^0.8.1",
+		"typescript": "~5.9.3",
+		"vite": "npm:rolldown-vite@7.2.5",
+		"vue-tsc": "^3.1.4"
+	},
+	"overrides": {
+		"vite": "npm:rolldown-vite@7.2.5"
+	}
 }
